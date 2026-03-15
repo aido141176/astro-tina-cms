@@ -1,3 +1,20 @@
+---
+import { Navbar } from 'astro-bootstrap'
+---
+
+<script>
+	export interface Props {
+	title: string;
+	}
+	const { title } = Astro.props;
+
+	import 'bootstrap/dist/css/bootstrap.css';
+
+	
+</script>
+
+
+</script>
 <!doctype html>
 <html lang="en">
 	<head>
@@ -9,6 +26,13 @@
 		<title>Astro Basics</title>
 	</head>
 	<body>
+		<div class="container-fluid" style="background:red">
+			<div class="container" style="background:green">
+				<h1>hello</h1>
+			
+			</div>
+	
+		</div>
 		<slot />
 	</body>
 </html>
