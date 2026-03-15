@@ -1,7 +1,7 @@
 // tina/config.ts
 import { defineConfig } from "tinacms";
 var config_default = defineConfig({
-  branch: "main",
+  branch: "master",
   build: {
     outputFolder: "admin",
     publicFolder: "public"
