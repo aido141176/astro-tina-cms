@@ -3,6 +3,9 @@ import { defineConfig } from "tinacms";
 export default defineConfig({
   branch: "master",
 
+  clientId: null,
+  token: null,
+
   build: {
     outputFolder: "admin",
     publicFolder: "public",
@@ -22,22 +25,9 @@ export default defineConfig({
         label: "Posts",
         path: "src/content/posts",
         fields: [
-          {
-            type: "string",
-            name: "title",
-            label: "Title",
-          },
-          {
-            type: "datetime",
-            name: "date",
-            label: "Date",
-          },
-          {
-            type: "rich-text",
-            name: "body",
-            label: "Body",
-            isBody: true,
-          },
+          { type: "string", name: "title", label: "Title" },
+          { type: "datetime", name: "date", label: "Date" },
+          { type: "rich-text", name: "body", label: "Body", isBody: true }
         ],
       },
     ],
