@@ -3,7 +3,7 @@ import Welcome from '../components/Welcome.astro';
 //import MyNavbar from '../components/bootstrap/mynavbar.astro';
 import MyCarousel from '../components/bootstrap/myCarousel.astro';
 import Layout from '../layouts/Layout.astro';
-import "../styles/global.css";
+
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -11,4 +11,12 @@ import "../styles/global.css";
 
 <Layout>
 	<Welcome />
+	<button class="btn btn-neutral">Neutral</button>
+<button class="btn btn-primary">Primary</button>
+<button class="btn btn-secondary">Secondary</button>
+<button class="btn btn-accent">Accent</button>
+<button class="btn btn-info">Info</button>
+<button class="btn btn-success">Success</button>
+<button class="btn btn-warning">Warning</button>
+<button class="btn btn-error">Error</button>
 </Layout>
