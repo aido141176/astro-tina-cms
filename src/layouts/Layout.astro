@@ -1,12 +1,9 @@
+---
+import Mynavbar from "../components/bootstrap/mynavbar.astro";
+---
+
 <script>
-	export interface Props {
-	title: string;
-	}
-	//const { title } = Astro.props;
-
-	import 'bootstrap/dist/css/bootstrap.css';
-
-	
+import Mynavbar from "../components/bootstrap/mynavbar.astro";
 </script>
 
 
@@ -24,6 +21,7 @@
 	<body>
 		<div class="container-fluid" style="background:red">
 			<div class="container" style="background:green">
+				<Mynavbar title="My Business" />
 				<h1>hello</h1>			
 			</div>	
 		</div>
