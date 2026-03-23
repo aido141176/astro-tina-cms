@@ -56,39 +56,33 @@ const { title = "My Site" } = Astro.props;
 </nav>
 
 <script is:inline>
-  const script = document.currentScript;
-  if (!script) return;
+  window.addEventListener("DOMContentLoaded", () => {
+    const menuBtn = document.getElementById("menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
 
-  const root = script.closest("nav");
-  if (!root) return;
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+    }
 
-  // Mobile menu
-  const menuBtn = root.querySelector("#menu-btn");
-  const mobileMenu = root.querySelector("#mobile-menu");
+    const dropdownBtn = document.getElementById("services-btn");
+    const dropdownMenu = document.getElementById("services-menu");
 
-  if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
-    });
-  }
+    if (dropdownBtn && dropdownMenu) {
+      dropdownBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle("hidden");
+      });
 
-  // Dropdown
-  const dropdownBtn = root.querySelector("#services-btn");
-  const dropdownMenu = root.querySelector("#services-menu");
-
-  if (dropdownBtn && dropdownMenu) {
-    dropdownBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      dropdownMenu.classList.toggle("hidden");
-    });
-
-    document.addEventListener("click", (e) => {
-      if (
-        !dropdownBtn.contains(e.target) &&
-        !dropdownMenu.contains(e.target)
-      ) {
-        dropdownMenu.classList.add("hidden");
-      }
-    });
-  }
+      document.addEventListener("click", (e) => {
+        if (
+          !dropdownBtn.contains(e.target) &&
+          !dropdownMenu.contains(e.target)
+        ) {
+          dropdownMenu.classList.add("hidden");
+        }
+      });
+    }
+  });
 </script>
