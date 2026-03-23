@@ -41,15 +41,37 @@
     <a href="/" class="block py-2">Home</a>
     <a href="/about" class="block py-2">About</a>
     <a href="/contact" class="block py-2">Contact</a>
-    <a href="/services" class="block py-2">Services</a>
   </div>
 </nav>
 
-<script>
-  const btn = document.getElementById("menu-btn");
-  const menu = document.getElementById("mobile-menu");
+<script is:inline>
+  window.addEventListener("DOMContentLoaded", () => {
+    const menuBtn = document.getElementById("menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
 
-  btn?.addEventListener("click", () => {
-    menu.classList.toggle("hidden");
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+    }
+
+    const dropdownBtn = document.getElementById("services-btn");
+    const dropdownMenu = document.getElementById("services-menu");
+
+    if (dropdownBtn && dropdownMenu) {
+      dropdownBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle("hidden");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (
+          !dropdownBtn.contains(e.target) &&
+          !dropdownMenu.contains(e.target)
+        ) {
+          dropdownMenu.classList.add("hidden");
+        }
+      });
+    }
   });
 </script>
