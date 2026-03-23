@@ -1,90 +1,55 @@
----
-const { title = "My Site" } = Astro.props;
----
-
-<nav class="bg-white shadow-md">
+<nav class="bg-white border-b shadow-sm">
   <div class="px-4 mx-auto max-w-7xl">
     <div class="flex items-center justify-between h-16">
-      
+
       <!-- Logo -->
       <div class="text-xl font-bold">
-        {title}
+        MySite
       </div>
 
-      <!-- Desktop Menu -->
+      <!-- Desktop menu -->
       <div class="hidden space-x-6 md:flex">
-        <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
-        <a href="/about" class="text-gray-700 hover:text-blue-600">About</a>
+        <a href="/" class="hover:text-blue-500">Home</a>
+        <a href="/about" class="hover:text-blue-500">About</a>
 
         <!-- Dropdown -->
-        <div class="relative">
-          <button 
-            id="services-btn"
-            class="flex items-center gap-1 text-gray-700 hover:text-blue-600"
-          >
+        <div class="relative group">
+          <button class="flex items-center gap-1">
             Services
-            <span>▾</span>
+            ▼
           </button>
 
-          <div 
-            id="services-menu"
-            class="absolute hidden w-40 mt-2 bg-white rounded shadow-md"
-          >
-            <a href="/web" class="block px-4 py-2 hover:bg-gray-100">Web Design</a>
-            <a href="/seo" class="block px-4 py-2 hover:bg-gray-100">SEO</a>
+          <div class="absolute hidden p-2 mt-2 bg-white shadow-md group-hover:block">
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Web Design</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">SEO</a>
           </div>
         </div>
 
-        <a href="/contact" class="text-gray-700 hover:text-blue-600">Contact</a>
+        <a href="/contact" class="hover:text-blue-500">Contact</a>
       </div>
 
-      <!-- Mobile Button -->
-      <button id="menu-btn" class="text-gray-700 md:hidden">
+      <!-- Mobile button -->
+      <button id="menu-btn" class="text-2xl md:hidden">
         ☰
       </button>
 
     </div>
   </div>
 
-  <!-- Mobile Menu -->
+  <!-- Mobile menu -->
   <div id="mobile-menu" class="hidden px-4 pb-4 md:hidden">
     <a href="/" class="block py-2">Home</a>
     <a href="/about" class="block py-2">About</a>
-    <a href="/services" class="block py-2">Services</a>
     <a href="/contact" class="block py-2">Contact</a>
+    <a href="/services" class="block py-2">Services</a>
   </div>
 </nav>
 
-<script is:inline>
-  window.addEventListener("DOMContentLoaded", () => {
-    const menuBtn = document.getElementById("menu-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
+<script>
+  const btn = document.getElementById("menu-btn");
+  const menu = document.getElementById("mobile-menu");
 
-    if (menuBtn && mobileMenu) {
-      menuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
-      });
-    }
-
-    const dropdownBtn = document.getElementById("services-btn");
-    const dropdownMenu = document.getElementById("services-menu");
-
-    if (dropdownBtn && dropdownMenu) {
-      dropdownBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        dropdownMenu.classList.toggle("hidden");
-      });
-
-      document.addEventListener("click", (e) => {
-        if (
-          !dropdownBtn.contains(e.target) &&
-          !dropdownMenu.contains(e.target)
-        ) {
-          dropdownMenu.classList.add("hidden");
-        }
-      });
-    }
+  btn?.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
   });
 </script>
-
-
