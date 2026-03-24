@@ -14,15 +14,17 @@
 
         <!-- Dropdown -->
         <div class="relative group">
-          <button class="flex items-center gap-1">
+        <!-- Button -->
+        <button style='padding-top:0px' class="flex items-center gap-1 py-2 hover:text-blue-600">
             Services
-            ▼
-          </button>
+            <span>▾</span>
+        </button>
 
-          <div class="absolute hidden p-2 mt-2 bg-white shadow-md group-hover:block">
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Web Design</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100">SEO</a>
-          </div>
+        <!-- Dropdown -->
+        <div class="absolute left-0 hidden w-48 mt-0 text-gray-700 bg-white rounded shadow-md top-full group-hover:block">
+            <a href="/web" class="block px-4 py-2 hover:bg-gray-100">Web Design</a>
+            <a href="/seo" class="block px-4 py-2 hover:bg-gray-100">SEO</a>
+        </div>
         </div>
 
         <a href="/contact" class="hover:text-blue-500">Contact</a>
@@ -36,16 +38,29 @@
     </div>
   </div>
 
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden px-4 pb-4 md:hidden">
+    <div id="mobile-menu" class="hidden px-4 pb-4 md:hidden">
     <a href="/" class="block py-2">Home</a>
     <a href="/about" class="block py-2">About</a>
+
+    <!-- Mobile Dropdown -->
+    <div>
+        <button id="mobile-services-btn" class="w-full py-2 text-left">
+        Services ▾
+        </button>
+
+        <div id="mobile-services-menu" class="hidden pl-4">
+        <a href="/web" class="block py-2">Web Design</a>
+        <a href="/seo" class="block py-2">SEO</a>
+        </div>
+    </div>
+
     <a href="/contact" class="block py-2">Contact</a>
-  </div>
+    </div>
 </nav>
 
 <script is:inline>
   window.addEventListener("DOMContentLoaded", () => {
+    // Mobile main menu
     const menuBtn = document.getElementById("menu-btn");
     const mobileMenu = document.getElementById("mobile-menu");
 
@@ -55,22 +70,13 @@
       });
     }
 
-    const dropdownBtn = document.getElementById("services-btn");
-    const dropdownMenu = document.getElementById("services-menu");
+    // Mobile dropdown
+    const mobileServicesBtn = document.getElementById("mobile-services-btn");
+    const mobileServicesMenu = document.getElementById("mobile-services-menu");
 
-    if (dropdownBtn && dropdownMenu) {
-      dropdownBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        dropdownMenu.classList.toggle("hidden");
-      });
-
-      document.addEventListener("click", (e) => {
-        if (
-          !dropdownBtn.contains(e.target) &&
-          !dropdownMenu.contains(e.target)
-        ) {
-          dropdownMenu.classList.add("hidden");
-        }
+    if (mobileServicesBtn && mobileServicesMenu) {
+      mobileServicesBtn.addEventListener("click", () => {
+        mobileServicesMenu.classList.toggle("hidden");
       });
     }
   });
