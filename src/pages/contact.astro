@@ -1,13 +1,17 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactForm from "../components/sections/ContactForm.astro";
 ---
+
 <BaseLayout 
-  title="Contact Web Designer Perth"
-  description="Contact our web design team in Perth for all your digital needs."
-  url="https://yoursite.com/contact"
+  title="Contact | Web Design Perth"
+  description="Get in touch for a fast, modern website."
+  url="https://astro-tina-cms.vercel.app/contact"
 >
-  <div class="max-w-4xl px-4 py-20 mx-auto">
-    <h1 class="mb-4 text-3xl font-bold">Contact</h1>
-    <p>Email us at info@yoursite.com</p>
+
+  <div class="px-4 py-20">
+    <h1 class="mb-6 text-3xl font-bold text-center">Contact Us</h1>
+    <ContactForm />
   </div>
+
 </BaseLayout>
