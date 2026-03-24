@@ -24,30 +24,51 @@ const isServicesActive = (): boolean => {
       </div>
 
       <!-- Desktop Menu -->
-     <div class="items-center hidden space-x-8 md:flex">
+      <div class="items-center hidden space-x-8 md:flex">
 
-  <a href="/" class={`nav-link ${isActive("/")}`}>Home</a>
-  <a href="/about" class={`nav-link ${isActive("/about")}`}>About</a>
+        <a href="/" class={`nav-link ${isActive("/")}`}>Home</a>
+        <a href="/about" class={`nav-link ${isActive("/about")}`}>About</a>
 
-  <!-- Services Dropdown -->
-  <div class="relative group">
-    <button class={`nav-link flex items-center gap-1 ${isServicesActive() ? "active-link" : ""}`}>
-      Services
-      <span>▾</span>
-    </button>
+        <!-- 🔥 Mega Menu -->
+        <div class="relative group">
+          <button class={`nav-link flex items-center gap-1 ${isServicesActive() ? "active-link" : ""}`}>
+            Services ▾
+          </button>
 
-    <div class="dropdown-menu">
-      <a href="/web" class="dropdown-item">Web Design</a>
-      <a href="/seo" class="dropdown-item">SEO</a>
-    </div>
-  </div>
+          <div class="mega-menu">
+            
+            <!-- Column 1 -->
+            <div>
+              <h4 class="mega-title">Web</h4>
+              <a href="/web" class="mega-item">Website Design</a>
+              <a href="/web-dev" class="mega-item">Web Development</a>
+              <a href="/ecommerce" class="mega-item">eCommerce</a>
+            </div>
 
-  <a href="/contact" class={`nav-link ${isActive("/contact")}`}>Contact</a>
+            <!-- Column 2 -->
+            <div>
+              <h4 class="mega-title">Marketing</h4>
+              <a href="/seo" class="mega-item">SEO</a>
+              <a href="/ads" class="mega-item">Google Ads</a>
+              <a href="/social" class="mega-item">Social Media</a>
+            </div>
 
-</div>
+            <!-- Column 3 -->
+            <div>
+              <h4 class="mega-title">Other</h4>
+              <a href="/branding" class="mega-item">Branding</a>
+              <a href="/consulting" class="mega-item">Consulting</a>
+            </div>
+
+          </div>
+        </div>
+
+        <a href="/contact" class={`nav-link ${isActive("/contact")}`}>Contact</a>
+
+      </div>
 
       <!-- Mobile Button -->
-      <button id="menu-btn" class="text-2xl text-gray-700 md:hidden">
+      <button id="menu-btn" class="text-2xl md:hidden">
         ☰
       </button>
 
@@ -55,79 +76,33 @@ const isServicesActive = (): boolean => {
   </div>
 
   <!-- Mobile Menu -->
-  <div 
-    id="mobile-menu"
-    class="px-4 overflow-hidden transition-all duration-300 ease-in-out max-h-0 md:hidden"
-  >
+  <div id="mobile-menu" class="px-4 overflow-hidden transition-all duration-300 max-h-0 md:hidden">
+
     <a href="/" class={`block py-2 ${isActive("/")}`}>Home</a>
     <a href="/about" class={`block py-2 ${isActive("/about")}`}>About</a>
 
-    <!-- Mobile Dropdown -->
+    <!-- Mobile Mega -->
     <div>
       <button id="mobile-services-btn" class="w-full py-2 text-left">
         Services ▾
       </button>
 
-      <div 
-        id="mobile-services-menu"
-        class="pl-4 overflow-hidden transition-all duration-300 ease-in-out max-h-0"
-      >
-        <a href="/web" class="block py-2">Web Design</a>
-        <a href="/seo" class="block py-2">SEO</a>
+      <div id="mobile-services-menu" class="pl-4 overflow-hidden transition-all duration-300 max-h-0">
+
+        <p class="mt-2 font-semibold">Web</p>
+        <a href="/web" class="block py-1">Website Design</a>
+        <a href="/web-dev" class="block py-1">Web Development</a>
+
+        <p class="mt-2 font-semibold">Marketing</p>
+        <a href="/seo" class="block py-1">SEO</a>
+        <a href="/ads" class="block py-1">Google Ads</a>
+
       </div>
     </div>
 
     <a href="/contact" class={`block py-2 ${isActive("/contact")}`}>Contact</a>
   </div>
 </nav>
-
-<script is:inline>
-  window.addEventListener("DOMContentLoaded", () => {
-    const menuBtn = document.getElementById("menu-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
-
-    if (menuBtn && mobileMenu) {
-      menuBtn.addEventListener("click", () => {
-        if (mobileMenu.classList.contains("max-h-0")) {
-          mobileMenu.classList.remove("max-h-0");
-          mobileMenu.classList.add("max-h-screen");
-        } else {
-          mobileMenu.classList.add("max-h-0");
-          mobileMenu.classList.remove("max-h-screen");
-        }
-      });
-    }
-
-    // Mobile dropdown
-    const mobileServicesBtn = document.getElementById("mobile-services-btn");
-    const mobileServicesMenu = document.getElementById("mobile-services-menu");
-
-    if (mobileServicesBtn && mobileServicesMenu) {
-      mobileServicesBtn.addEventListener("click", () => {
-        if (mobileServicesMenu.classList.contains("max-h-0")) {
-          mobileServicesMenu.classList.remove("max-h-0");
-          mobileServicesMenu.classList.add("max-h-40");
-        } else {
-          mobileServicesMenu.classList.add("max-h-0");
-          mobileServicesMenu.classList.remove("max-h-40");
-        }
-      });
-    }
-  });
-</script>
-<script is:inline>
-  window.addEventListener("DOMContentLoaded", () => {
-    const nav = document.getElementById("navbar");
-
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 10) {
-        nav?.classList.add("shadow-lg");
-      } else {
-        nav?.classList.remove("shadow-lg");
-      }
-    });
-  });
-</script>
 
 <style>
   .nav-link {
@@ -140,7 +115,6 @@ const isServicesActive = (): boolean => {
     color: #2563eb;
   }
 
-  /* 🔥 Underline animation */
   .nav-link::after {
     content: "";
     position: absolute;
@@ -165,15 +139,20 @@ const isServicesActive = (): boolean => {
     width: 100%;
   }
 
-  /* 🔥 Dropdown animation */
-  .dropdown-menu {
+  /* 🔥 Mega Menu */
+  .mega-menu {
     position: absolute;
-    top: 100%;
     left: 0;
-    width: 12rem;
+    top: 100%;
+    width: 600px;
+    padding: 1.5rem;
     background: white;
     border-radius: 0.5rem;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
 
     opacity: 0;
     transform: translateY(10px);
@@ -181,18 +160,57 @@ const isServicesActive = (): boolean => {
     transition: all 0.25s ease;
   }
 
-  .group:hover .dropdown-menu {
+  .group:hover .mega-menu {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
   }
 
-  .dropdown-item {
-    display: block;
-    padding: 0.5rem 1rem;
+  .mega-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
   }
 
-  .dropdown-item:hover {
-    background: #f3f4f6;
+  .mega-item {
+    display: block;
+    padding: 0.25rem 0;
+  }
+
+  .mega-item:hover {
+    color: #2563eb;
   }
 </style>
+
+<script is:inline>
+  window.addEventListener("DOMContentLoaded", () => {
+    const menuBtn = document.getElementById("menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("max-h-screen");
+        mobileMenu.classList.toggle("max-h-0");
+      });
+    }
+
+    const mobileBtn = document.getElementById("mobile-services-btn");
+    const mobileMenuInner = document.getElementById("mobile-services-menu");
+
+    if (mobileBtn && mobileMenuInner) {
+      mobileBtn.addEventListener("click", () => {
+        mobileMenuInner.classList.toggle("max-h-40");
+        mobileMenuInner.classList.toggle("max-h-0");
+      });
+    }
+
+    const nav = document.getElementById("navbar");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 10) {
+        nav?.classList.add("shadow-lg");
+      } else {
+        nav?.classList.remove("shadow-lg");
+      }
+    });
+  });
+</script>
