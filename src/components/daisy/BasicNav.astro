@@ -1,72 +1,100 @@
-<nav class="bg-white border-b shadow-sm">
+---
+const { title = "My Site" } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const isActive = (path: string): string => {
+  if (path === "/") {
+    return currentPath === "/" ? "active-link" : "";
+  }
+  return currentPath.startsWith(path) ? "active-link" : "";
+};
+
+const isServicesActive = (): boolean => {
+  return currentPath.startsWith("/web") || currentPath.startsWith("/seo");
+};
+---
+
+<nav id="navbar" class="sticky top-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-md">
   <div class="px-4 mx-auto max-w-7xl">
     <div class="flex items-center justify-between h-16">
 
       <!-- Logo -->
       <div class="text-xl font-bold">
-        MySite
+        {title}
       </div>
 
-      <!-- Desktop menu -->
-      <div class="hidden space-x-6 md:flex">
-        <a href="/" class="hover:text-blue-500">Home</a>
-        <a href="/about" class="hover:text-blue-500">About</a>
+      <!-- Desktop Menu -->
+     <div class="items-center hidden space-x-8 md:flex">
 
-        <!-- Dropdown -->
-        <div class="relative group">
-        <!-- Button -->
-        <button style='padding-top:0px' class="flex items-center gap-1 py-2 hover:text-blue-600">
-            Services
-            <span>▾</span>
-        </button>
+  <a href="/" class={`nav-link ${isActive("/")}`}>Home</a>
+  <a href="/about" class={`nav-link ${isActive("/about")}`}>About</a>
 
-        <!-- Dropdown -->
-        <div class="absolute left-0 hidden w-48 mt-0 text-gray-700 bg-white rounded shadow-md top-full group-hover:block">
-            <a href="/web" class="block px-4 py-2 hover:bg-gray-100">Web Design</a>
-            <a href="/seo" class="block px-4 py-2 hover:bg-gray-100">SEO</a>
-        </div>
-        </div>
+  <!-- Services Dropdown -->
+  <div class="relative group">
+    <button class={`nav-link flex items-center gap-1 ${isServicesActive() ? "active-link" : ""}`}>
+      Services
+      <span>▾</span>
+    </button>
 
-        <a href="/contact" class="hover:text-blue-500">Contact</a>
-      </div>
+    <div class="dropdown-menu">
+      <a href="/web" class="dropdown-item">Web Design</a>
+      <a href="/seo" class="dropdown-item">SEO</a>
+    </div>
+  </div>
 
-      <!-- Mobile button -->
-      <button id="menu-btn" class="text-2xl md:hidden">
+  <a href="/contact" class={`nav-link ${isActive("/contact")}`}>Contact</a>
+
+</div>
+
+      <!-- Mobile Button -->
+      <button id="menu-btn" class="text-2xl text-gray-700 md:hidden">
         ☰
       </button>
 
     </div>
   </div>
 
-    <div id="mobile-menu" class="hidden px-4 pb-4 md:hidden">
-    <a href="/" class="block py-2">Home</a>
-    <a href="/about" class="block py-2">About</a>
+  <!-- Mobile Menu -->
+  <div 
+    id="mobile-menu"
+    class="px-4 overflow-hidden transition-all duration-300 ease-in-out max-h-0 md:hidden"
+  >
+    <a href="/" class={`block py-2 ${isActive("/")}`}>Home</a>
+    <a href="/about" class={`block py-2 ${isActive("/about")}`}>About</a>
 
     <!-- Mobile Dropdown -->
     <div>
-        <button id="mobile-services-btn" class="w-full py-2 text-left">
+      <button id="mobile-services-btn" class="w-full py-2 text-left">
         Services ▾
-        </button>
+      </button>
 
-        <div id="mobile-services-menu" class="hidden pl-4">
+      <div 
+        id="mobile-services-menu"
+        class="pl-4 overflow-hidden transition-all duration-300 ease-in-out max-h-0"
+      >
         <a href="/web" class="block py-2">Web Design</a>
         <a href="/seo" class="block py-2">SEO</a>
-        </div>
+      </div>
     </div>
 
-    <a href="/contact" class="block py-2">Contact</a>
-    </div>
+    <a href="/contact" class={`block py-2 ${isActive("/contact")}`}>Contact</a>
+  </div>
 </nav>
 
 <script is:inline>
   window.addEventListener("DOMContentLoaded", () => {
-    // Mobile main menu
     const menuBtn = document.getElementById("menu-btn");
     const mobileMenu = document.getElementById("mobile-menu");
 
     if (menuBtn && mobileMenu) {
       menuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
+        if (mobileMenu.classList.contains("max-h-0")) {
+          mobileMenu.classList.remove("max-h-0");
+          mobileMenu.classList.add("max-h-screen");
+        } else {
+          mobileMenu.classList.add("max-h-0");
+          mobileMenu.classList.remove("max-h-screen");
+        }
       });
     }
 
@@ -76,8 +104,95 @@
 
     if (mobileServicesBtn && mobileServicesMenu) {
       mobileServicesBtn.addEventListener("click", () => {
-        mobileServicesMenu.classList.toggle("hidden");
+        if (mobileServicesMenu.classList.contains("max-h-0")) {
+          mobileServicesMenu.classList.remove("max-h-0");
+          mobileServicesMenu.classList.add("max-h-40");
+        } else {
+          mobileServicesMenu.classList.add("max-h-0");
+          mobileServicesMenu.classList.remove("max-h-40");
+        }
       });
     }
   });
 </script>
+<script is:inline>
+  window.addEventListener("DOMContentLoaded", () => {
+    const nav = document.getElementById("navbar");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 10) {
+        nav?.classList.add("shadow-lg");
+      } else {
+        nav?.classList.remove("shadow-lg");
+      }
+    });
+  });
+</script>
+
+<style>
+  .nav-link {
+    position: relative;
+    color: #374151;
+    transition: color 0.3s;
+  }
+
+  .nav-link:hover {
+    color: #2563eb;
+  }
+
+  /* 🔥 Underline animation */
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background: #2563eb;
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .active-link {
+    color: #2563eb;
+    font-weight: 600;
+  }
+
+  .active-link::after {
+    width: 100%;
+  }
+
+  /* 🔥 Dropdown animation */
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 12rem;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: all 0.25s ease;
+  }
+
+  .group:hover .dropdown-menu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .dropdown-item {
+    display: block;
+    padding: 0.5rem 1rem;
+  }
+
+  .dropdown-item:hover {
+    background: #f3f4f6;
+  }
+</style>
