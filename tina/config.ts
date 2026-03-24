@@ -1,10 +1,7 @@
 import { defineConfig } from "tinacms";
 
 export default defineConfig({
-  branch: "master",
-
-  clientId: null,
-  token: null,
+  branch: "main",
 
   build: {
     outputFolder: "admin",
@@ -13,12 +10,10 @@ export default defineConfig({
 
   media: {
     tina: {
-      mediaRoot: "uploads",
+      mediaRoot: "",
       publicFolder: "public",
     },
   },
-
-    localContentPath: "content",
 
   schema: {
     collections: [
@@ -28,6 +23,7 @@ export default defineConfig({
         path: "src/content/posts",
         fields: [
           { type: "string", name: "title", label: "Title" },
+          { type: "string", name: "description", label: "Description" },
           { type: "datetime", name: "date", label: "Date" },
           { type: "rich-text", name: "body", label: "Body", isBody: true }
         ],

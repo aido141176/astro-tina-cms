@@ -1,16 +1,14 @@
 // tina/config.ts
 import { defineConfig } from "tinacms";
 var config_default = defineConfig({
-  branch: "master",
-  clientId: null,
-  token: null,
+  branch: "main",
   build: {
     outputFolder: "admin",
     publicFolder: "public"
   },
   media: {
     tina: {
-      mediaRoot: "uploads",
+      mediaRoot: "",
       publicFolder: "public"
     }
   },
@@ -22,6 +20,7 @@ var config_default = defineConfig({
         path: "src/content/posts",
         fields: [
           { type: "string", name: "title", label: "Title" },
+          { type: "string", name: "description", label: "Description" },
           { type: "datetime", name: "date", label: "Date" },
           { type: "rich-text", name: "body", label: "Body", isBody: true }
         ]
