@@ -1,23 +1,15 @@
 ---
-import BaseLayout from "../components/layout/BaseLayout.astro";
-import BasicNav from "../components/daisy/BasicNav.astro";
-import Footer from "../components/layout/Footer.astro";
-
+import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/sections/Hero.astro";
 import Services from "../components/sections/Services.astro";
 import CTA from "../components/sections/CTA.astro";
 ---
 
-<BaseLayout title="Home" description="Professional web design services">
-  <BasicNav />
-
+<BaseLayout title="Home">
   <Hero 
     title="Build Better Websites"
-    subtitle="Fast, modern, SEO-friendly websites for your business"
+    subtitle="Fast, modern websites"
   />
-
   <Services />
   <CTA />
-
-  <Footer />
 </BaseLayout>
