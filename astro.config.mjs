@@ -1,10 +1,17 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import vercel from '@astrojs/vercel/serverless';
 
 export default defineConfig({
-    site: 'https://yoursite.com',
+  site: 'https://astro-tina-cms.vercel.app',
+
+  output: 'server', // 🔥 IMPORTANT
+
   integrations: [sitemap()],
+
+  adapter: vercel(),
+
   vite: {
     plugins: [tailwindcss()],
   },
