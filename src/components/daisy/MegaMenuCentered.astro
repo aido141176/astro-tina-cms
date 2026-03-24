@@ -1,0 +1,297 @@
+---
+const menuItems = [
+  { label: 'Home', href: '/' },
+  {
+    label: 'Products',
+    megaMenu: true,
+    content: [
+      {
+        title: 'Analytics',
+        links: [
+          { label: 'Product Analytics', href: '/products/analytics' },
+          { label: 'Conversion Funnels', href: '/products/funnels' },
+          { label: 'Dashboards', href: '/products/dashboards' },
+        ],
+      },
+      {
+        title: 'Experimentation',
+        links: [
+          { label: 'A/B Testing', href: '/products/ab-testing' },
+          { label: 'Multivariate', href: '/products/mvt' },
+          { label: 'Feature Flags', href: '/products/flags' },
+        ],
+      },
+      {
+        title: 'Integrations',
+        links: [
+          { label: 'Marketing', href: '/products/integrations/marketing' },
+          { label: 'Data & BI', href: '/products/integrations/data' },
+          { label: 'CMS', href: '/products/integrations/cms' },
+        ],
+      },
+    ],
+  },
+  { label: 'Resources', href: '/resources' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Contact', href: '/contact' },
+];
+---
+
+<nav class="bg-white border-b">
+  <div class="px-4 mx-auto max-w-7xl">
+    <div class="flex items-center justify-between h-16">
+      <!-- Left: logo + main nav -->
+      <div class="flex items-center space-x-8">
+        <a href="/" class="text-xl font-bold text-gray-800">MySite</a>
+
+        <ul class="flex items-center space-x-6">
+          {menuItems.map((item) => (
+            <li class="relative group">
+              {item.megaMenu ? (
+                <>
+                  <button
+                    type="button"
+                    class="inline-flex items-center text-gray-700 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-300"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <span>{item.label}</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  <!-- Centered mega menu -->
+                  <div
+                    class="absolute left-1/2 top-full transform -translate-x-1/2 mt-2 w-[min(90vw,900px)] bg-white shadow-lg rounded-md opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 z-50"
+                    role="menu"
+                    aria-label={`${item.label} submenu`}
+                  >
+                    <div class="grid grid-cols-3 gap-6 p-6">
+                      {item.content.map((col) => (
+                        <div>
+                          <h3 class="mb-2 text-sm font-semibold text-gray-900">{col.title}</h3>
+                          <ul class="space-y-1">
+                            {col.links.map((lnk) => (
+                              <li>
+                                <a href={lnk.href} class="block text-gray-600 hover:text-sky-600">
+                                  {lnk.label}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <a href={item.href} class="text-gray-700 hover:text-sky-600">
+                  {item.label}
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Right: search -->
+      <div class="relative max-w-xs w-80">
+        <form id="nav-search-form" class="relative" role="search" novalidate>
+          <label for="nav-search-input" class="sr-only">Search site</label>
+          <input
+            id="nav-search-input"
+            name="q"
+            type="search"
+            autocomplete="off"
+            placeholder="Search..."
+            class="w-full px-3 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-300"
+            aria-autocomplete="list"
+            aria-controls="nav-search-results"
+            aria-expanded="false"
+          />
+          <button
+            type="submit"
+            class="absolute text-gray-500 -translate-y-1/2 right-2 top-1/2 hover:text-sky-600"
+            aria-label="Submit search"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
+            </svg>
+          </button>
+        </form>
+
+        <!-- Search suggestions / results -->
+        <div id="nav-search-results" class="absolute z-50 hidden w-full mt-1 bg-white border border-gray-100 rounded-md shadow-lg" role="listbox"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- serialized menu data for client JS -->
+  <script type="application/json" id="menu-data">{JSON.stringify(menuItems)}</script>
+
+  <script is:inline>
+    (function () {
+      // Basic client-side search for menu links (minimal JS).
+      const menuJson = document.getElementById('menu-data');
+      if (!menuJson) return;
+      const raw = JSON.parse(menuJson.textContent || '[]');
+
+      // Build a flat search index from main items + mega menu links
+      const searchIndex = [];
+
+      raw.forEach((item) => {
+        if (item.megaMenu && Array.isArray(item.content)) {
+          item.content.forEach((col) => {
+            const cat = col.title || '';
+            if (Array.isArray(col.links)) {
+              col.links.forEach((lnk) => {
+                searchIndex.push({
+                  title: lnk.label,
+                  href: lnk.href,
+                  category: cat,
+                });
+              });
+            }
+          });
+        } else {
+          searchIndex.push({
+            title: item.label,
+            href: item.href || '#',
+            category: 'Main',
+          });
+        }
+      });
+
+      // DOM refs
+      const input = document.getElementById('nav-search-input');
+      const resultsBox = document.getElementById('nav-search-results');
+      const form = document.getElementById('nav-search-form');
+
+      let currentIndex = -1; // for keyboard navigation
+      let currentResults = [];
+
+      function clearResults() {
+        resultsBox.innerHTML = '';
+        resultsBox.classList.add('hidden');
+        input.setAttribute('aria-expanded', 'false');
+        currentResults = [];
+        currentIndex = -1;
+      }
+
+      function renderResults(items) {
+        resultsBox.innerHTML = '';
+        if (!items.length) {
+          resultsBox.classList.add('hidden');
+          input.setAttribute('aria-expanded', 'false');
+          currentResults = [];
+          currentIndex = -1;
+          return;
+        }
+
+        const ul = document.createElement('ul');
+        ul.className = 'divide-y divide-gray-100 max-h-60 overflow-auto';
+        ul.setAttribute('role', 'listbox');
+
+        items.forEach((it, i) => {
+          const li = document.createElement('li');
+          li.className = 'p-2 hover:bg-gray-50 cursor-pointer';
+          li.setAttribute('role', 'option');
+          li.setAttribute('data-index', String(i));
+          li.innerHTML = `<div class="text-sm text-gray-800">${escapeHtml(it.title)}</div>
+                          <div class="text-xs text-gray-500">${escapeHtml(it.category)}</div>`;
+          li.addEventListener('click', () => (window.location.href = it.href));
+          ul.appendChild(li);
+        });
+
+        resultsBox.appendChild(ul);
+        resultsBox.classList.remove('hidden');
+        input.setAttribute('aria-expanded', 'true');
+        currentResults = items;
+        currentIndex = -1;
+      }
+
+      function escapeHtml(s = '') {
+        return String(s).replace(/[&<>"']/g, function (m) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+        });
+      }
+
+      function doSearch(q) {
+        const qn = q.trim().toLowerCase();
+        if (!qn) {
+          clearResults();
+          return;
+        }
+        // simple scoring: exact startsWith > includes
+        const starts = [];
+        const includes = [];
+        for (const it of searchIndex) {
+          const t = (it.title || '').toLowerCase();
+          if (t.startsWith(qn)) starts.push(it);
+          else if (t.includes(qn)) includes.push(it);
+        }
+        const results = starts.concat(includes).slice(0, 8);
+        renderResults(results);
+      }
+
+      input.addEventListener('input', (e) => {
+        doSearch(e.target.value);
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (!currentResults.length) return;
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          currentIndex = Math.min(currentIndex + 1, currentResults.length - 1);
+          highlightRow(currentIndex);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          currentIndex = Math.max(currentIndex - 1, 0);
+          highlightRow(currentIndex);
+        } else if (e.key === 'Enter') {
+          if (currentIndex >= 0 && currentResults[currentIndex]) {
+            e.preventDefault();
+            window.location.href = currentResults[currentIndex].href;
+          }
+        } else if (e.key === 'Escape') {
+          clearResults();
+        }
+      });
+
+      function highlightRow(index) {
+        const children = resultsBox.querySelectorAll('[role="option"]');
+        children.forEach((el) => el.classList.remove('bg-sky-50', 'text-sky-600'));
+        if (index >= 0 && children[index]) {
+          children[index].classList.add('bg-sky-50');
+          // scroll into view if necessary
+          children[index].scrollIntoView({ block: 'nearest' });
+        }
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const q = input.value.trim();
+        if (!q) {
+          clearResults();
+          return;
+        }
+        // If there are results, go to first; else navigate to a search page (change as needed)
+        if (currentResults.length) {
+          window.location.href = currentResults[0].href;
+        } else {
+          // fallback: go to /search?q=...
+          const url = '/search?q=' + encodeURIComponent(q);
+          window.location.href = url;
+        }
+      });
+
+      // close when clicking outside
+      document.addEventListener('click', (ev) => {
+        if (!resultsBox.contains(ev.target) && ev.target !== input) {
+          clearResults();
+        }
+      });
+    })();
+  </script>
+</nav>

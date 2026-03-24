@@ -141,24 +141,24 @@ const isServicesActive = (): boolean => {
 
   /* 🔥 Mega Menu */
   .mega-menu {
-    position: absolute;
-    left: 0;
-    top: 100%;
-    width: 600px;
-    padding: 1.5rem;
-    background: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-
-    opacity: 0;
-    transform: translateY(10px);
-    pointer-events: none;
-    transition: all 0.25s ease;
-  }
+  position: absolute;
+  right: 0;
+  left: auto;
+  top: 100%;
+  width: min(90vw, 700px);
+  padding: 1.5rem;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: all 0.25s ease;
+  
+}
 
   .group:hover .mega-menu {
     opacity: 1;
