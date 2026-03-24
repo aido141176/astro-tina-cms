@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  site: 'https://astro-tina-cms.vercel.app',
+  site: 'https://astro-tina-cms-gray.vercel.app',
 
   output: 'server',
 
