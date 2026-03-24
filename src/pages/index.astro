@@ -1,20 +1,23 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from "../components/layout/BaseLayout.astro";
+import BasicNav from "../components/daisy/BasicNav.astro";
+import Footer from "../components/layout/Footer.astro";
 
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Hero from "../components/sections/Hero.astro";
+import Services from "../components/sections/Services.astro";
+import CTA from "../components/sections/CTA.astro";
 ---
 
-<Layout>
-	<Welcome />
-	<button class="btn btn-neutral">Neutral</button>
-<button class="btn btn-primary">Primary</button>
-<button class="btn btn-secondary">Secondary</button>
-<button class="btn btn-accent">Accent</button>
-<button class="btn btn-info">Info</button>
-<button class="btn btn-success">Success</button>
-<button class="btn btn-warning">Warning</button>
-<button class="btn btn-error">Error</button>
-</Layout>
+<BaseLayout title="Home" description="Professional web design services">
+  <BasicNav />
+
+  <Hero 
+    title="Build Better Websites"
+    subtitle="Fast, modern, SEO-friendly websites for your business"
+  />
+
+  <Services />
+  <CTA />
+
+  <Footer />
+</BaseLayout>
