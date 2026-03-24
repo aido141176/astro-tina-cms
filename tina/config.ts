@@ -18,6 +18,8 @@ export default defineConfig({
     },
   },
 
+    localContentPath: "content",
+
   schema: {
     collections: [
       {
