@@ -1,16 +1,14 @@
 import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
-import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
+import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://astro-tina-cms-gray.vercel.app',
+  site: 'https://yoursite.com',
 
   output: 'server',
 
-  adapter: vercel({
-    mode: 'standalone' // 🔥 THIS FIXES YOUR ERROR
-  }),
+  adapter: vercel(), // ✅ IMPORTANT
 
   integrations: [sitemap()],
 
