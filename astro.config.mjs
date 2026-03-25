@@ -8,7 +8,9 @@ export default defineConfig({
 
   output: 'server',
 
-  adapter: vercel(),
+  adapter: vercel({
+    mode: 'standalone' // 🔥 THIS FIXES YOUR ERROR
+  }),
 
   integrations: [sitemap()],
 

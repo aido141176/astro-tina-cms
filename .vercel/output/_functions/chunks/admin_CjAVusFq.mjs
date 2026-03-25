@@ -1,6 +1,6 @@
-import { c as createComponent } from './astro-component_DOFD0j1q.mjs';
+import { c as createComponent } from './astro-component_Bt3yeqQM.mjs';
 import 'piccolore';
-import './entrypoint_wcmOydu-.mjs';
+import './entrypoint_DztqOFh7.mjs';
 import 'clsx';
 
 const $$Admin = createComponent(($$result, $$props, $$slots) => {
