@@ -1,33 +1,58 @@
 ---
-const { formType = "contact" } = Astro.props;
+type Field = {
+  name: string;
+  label: string;
+  type: "text" | "email" | "number" | "date" | "textarea" | "select";
+  required?: boolean;
+  options?: string[];
+};
+
+const { config, formType = "contact" } = Astro.props as {
+  config: { fields: Field[] };
+  formType?: string;
+};
 ---
 
 <form id="form" class="max-w-xl space-y-4">
-  <!-- Name -->
-  <input
-    type="text"
-    name="name"
-    placeholder="Your Name"
-    required
-    class="w-full p-3 border rounded"
-  />
+  <!-- Dynamic Fields -->
+  {config.fields.map((field: Field) => {
+    if (field.type === "textarea") {
+      return (
+        <textarea
+          name={field.name}
+          placeholder={field.label}
+          required={field.required}
+          class="w-full p-3 border rounded"
+        ></textarea>
+      );
+    }
 
-  <!-- Email -->
-  <input
-    type="email"
-    name="email"
-    placeholder="Your Email"
-    required
-    class="w-full p-3 border rounded"
-  />
+    if (field.type === "select") {
+      return (
+        <select
+          name={field.name}
+          class="w-full p-3 border rounded"
+          required={field.required}
+        >
+          <option value="">Select {field.label}</option>
+          {field.options?.map((opt: string) => (
+            <option value={opt}>{opt}</option>
+          ))}
+        </select>
+      );
+    }
 
-  <!-- Message -->
-  <textarea
-    name="message"
-    placeholder="Your Message"
-    required
-    class="w-full p-3 border rounded"
-  ></textarea>
+    // Default input
+    return (
+      <input
+        type={field.type}
+        name={field.name}
+        placeholder={field.label}
+        required={field.required}
+        class="w-full p-3 border rounded"
+      />
+    );
+  })}
 
   <!-- Hidden -->
   <input type="hidden" name="formType" value={formType} />
