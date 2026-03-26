@@ -1,0 +1,81 @@
+---
+const { formType = "contact" } = Astro.props;
+---
+
+<form id="form" class="max-w-xl space-y-4">
+  <!-- Name -->
+  <input
+    type="text"
+    name="name"
+    placeholder="Your Name"
+    required
+    class="w-full p-3 border rounded"
+  />
+
+  <!-- Email -->
+  <input
+    type="email"
+    name="email"
+    placeholder="Your Email"
+    required
+    class="w-full p-3 border rounded"
+  />
+
+  <!-- Message -->
+  <textarea
+    name="message"
+    placeholder="Your Message"
+    required
+    class="w-full p-3 border rounded"
+  ></textarea>
+
+  <!-- Hidden -->
+  <input type="hidden" name="formType" value={formType} />
+
+  <!-- Submit -->
+  <button
+    type="submit"
+    id="submitBtn"
+    class="px-6 py-3 text-white bg-blue-600 rounded"
+  >
+    Send Message
+  </button>
+
+  <!-- Status -->
+  <p id="status" class="text-sm"></p>
+</form>
+
+<script>
+  const form = document.getElementById("form");
+  const status = document.getElementById("status");
+  const button = document.getElementById("submitBtn");
+
+  if (form instanceof HTMLFormElement && status && button) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      status.textContent = "Sending...";
+      button.setAttribute("disabled", "true");
+
+      const formData = new FormData(form);
+
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (res.ok) {
+          status.textContent = "✅ Message sent!";
+          form.reset();
+        } else {
+          status.textContent = "❌ Something went wrong.";
+        }
+      } catch (err) {
+        status.textContent = "❌ Network error.";
+      }
+
+      button.removeAttribute("disabled");
+    });
+  }
+</script>
