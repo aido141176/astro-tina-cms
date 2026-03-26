@@ -21,8 +21,8 @@ export const POST: APIRoute = async ({ request }) => {
     const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
     await resend.emails.send({
-      from: "Website <contact@yourdomain.com>", // change this
-      to: ["your@email.com"], // change this
+      from: "Website <contact@contact.amcd.com.au>", // change this
+      to: ["contact@amcd.com.au"], // change this
       replyTo: email,
       subject: `New ${formType} form submission from ${name}`,
       html: `
