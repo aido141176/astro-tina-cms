@@ -5,18 +5,21 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const formData = await request.formData();
 
-    const name = formData.get("name")?.toString() || "";
     const email = formData.get("email")?.toString() || "";
-    const message = formData.get("message")?.toString() || "";
     const formType = formData.get("formType")?.toString() || "contact";
 
-    // Basic validation
-    if (!name || !email) {
-      return new Response(
-        JSON.stringify({ error: "Missing required fields" }),
-        { status: 400 }
-      );
-    }
+    const formatLabel = (key: string) =>
+      key.charAt(0).toUpperCase() + key.slice(1);
+
+    const html = `
+      <h2>New ${formType} submission</h2>
+      ${Array.from(formData.entries())
+        .map(([key, value]) => {
+          if (key === "formType") return "";
+          return `<p><strong>${formatLabel(key)}:</strong> ${value}</p>`;
+        })
+        .join("")}
+    `;
 
     const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
@@ -24,20 +27,13 @@ export const POST: APIRoute = async ({ request }) => {
       from: "Website <contact@contact.amcd.com.au>", // change this
       to: ["contact@amcd.com.au"], // change this
       replyTo: email,
-      subject: `New ${formType} form submission from ${name}`,
-      html: `
-        <h2>New Message</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
-      `,
+      subject: `New ${formType} submission`,
+      html,
     });
 
-    return new Response(
-      JSON.stringify({ success: true }),
-      { status: 200 }
-    );
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+    });
   } catch (error) {
     console.error("Email error:", error);
 

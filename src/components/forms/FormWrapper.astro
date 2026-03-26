@@ -13,8 +13,8 @@ const { config, formType = "contact" } = Astro.props as {
 };
 ---
 
-<form id="form" class="max-w-xl space-y-4">
-  <!-- Dynamic Fields -->
+<form id="form" class="space-y-4 max-w-xl">
+
   {config.fields.map((field: Field) => {
     if (field.type === "textarea") {
       return (
@@ -31,8 +31,8 @@ const { config, formType = "contact" } = Astro.props as {
       return (
         <select
           name={field.name}
-          class="w-full p-3 border rounded"
           required={field.required}
+          class="w-full p-3 border rounded"
         >
           <option value="">Select {field.label}</option>
           {field.options?.map((opt: string) => (
@@ -42,23 +42,25 @@ const { config, formType = "contact" } = Astro.props as {
       );
     }
 
-    // Default input
-        if (
-        field.type === "text" ||
-        field.type === "email" ||
-        field.type === "number" ||
-        field.type === "date"
-        ) {
-        return (
-            <input
-            type={field.type}
-            name={field.name}
-            placeholder={field.label}
-            required={field.required}
-            class="w-full p-3 border rounded"
-            />
-        );
-        }
+    // Input types
+    if (
+      field.type === "text" ||
+      field.type === "email" ||
+      field.type === "number" ||
+      field.type === "date"
+    ) {
+      return (
+        <input
+          type={field.type}
+          name={field.name}
+          placeholder={field.label}
+          required={field.required}
+          class="w-full p-3 border rounded"
+        />
+      );
+    }
+
+    return null;
   })}
 
   <!-- Hidden -->
@@ -70,7 +72,7 @@ const { config, formType = "contact" } = Astro.props as {
     id="submitBtn"
     class="px-6 py-3 text-white bg-blue-600 rounded"
   >
-    Send Message
+    Send
   </button>
 
   <!-- Status -->
