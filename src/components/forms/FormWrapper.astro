@@ -43,15 +43,22 @@ const { config, formType = "contact" } = Astro.props as {
     }
 
     // Default input
-    return (
-      <input
-        type={field.type}
-        name={field.name}
-        placeholder={field.label}
-        required={field.required}
-        class="w-full p-3 border rounded"
-      />
-    );
+        if (
+        field.type === "text" ||
+        field.type === "email" ||
+        field.type === "number" ||
+        field.type === "date"
+        ) {
+        return (
+            <input
+            type={field.type}
+            name={field.name}
+            placeholder={field.label}
+            required={field.required}
+            class="w-full p-3 border rounded"
+            />
+        );
+        }
   })}
 
   <!-- Hidden -->
