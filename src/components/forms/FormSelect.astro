@@ -1,0 +1,14 @@
+---
+const { field } = Astro.props;
+---
+
+<select
+  name={field.name}
+  required={field.required}
+  class="w-full p-3 border rounded"
+>
+  <option value="">Select {field.label}</option>
+  {field.options?.map((opt: string) => (
+    <option value={opt}>{opt}</option>
+  ))}
+</select>

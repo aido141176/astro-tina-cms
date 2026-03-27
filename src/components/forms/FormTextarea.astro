@@ -1,0 +1,10 @@
+---
+const { field } = Astro.props;
+---
+
+<textarea
+  name={field.name}
+  placeholder={field.label}
+  required={field.required}
+  class="w-full p-3 border rounded"
+></textarea>
