@@ -1,7 +1,7 @@
-fragment PostsParts on Posts {
+fragment SectionsParts on Sections {
   __typename
   title
-  description
-  date
-  body
+  content
+  image
+  order
 }

@@ -54,12 +54,12 @@ type Query {
   collections: [Collection!]!
   node(id: String): Node!
   document(collection: String, relativePath: String): DocumentNode!
-  posts(relativePath: String): Posts!
-  postsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PostsFilter): PostsConnection!
+  sections(relativePath: String): Sections!
+  sectionsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: SectionsFilter): SectionsConnection!
 }
 
 input DocumentFilter {
-  posts: PostsFilter
+  sections: SectionsFilter
 }
 
 type DocumentConnectionEdges {
@@ -85,13 +85,13 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Posts | Folder
+union DocumentNode = Sections | Folder
 
-type Posts implements Node & Document {
+type Sections implements Node & Document {
   title: String
-  description: String
-  date: String
-  body: JSON
+  content: JSON
+  image: String
+  order: Float
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -104,36 +104,45 @@ input StringFilter {
   in: [String]
 }
 
-input DatetimeFilter {
-  after: String
-  before: String
-  eq: String
-  exists: Boolean
-  in: [String]
-}
-
 input RichTextFilter {
   startsWith: String
   eq: String
   exists: Boolean
 }
 
-input PostsFilter {
+input ImageFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+  in: [String]
+}
+
+input NumberFilter {
+  lt: Float
+  lte: Float
+  gte: Float
+  gt: Float
+  eq: Float
+  exists: Boolean
+  in: [Float]
+}
+
+input SectionsFilter {
   title: StringFilter
-  description: StringFilter
-  date: DatetimeFilter
-  body: RichTextFilter
+  content: RichTextFilter
+  image: ImageFilter
+  order: NumberFilter
 }
 
-type PostsConnectionEdges {
+type SectionsConnectionEdges {
   cursor: String!
-  node: Posts
+  node: Sections
 }
 
-type PostsConnection implements Connection {
+type SectionsConnection implements Connection {
   pageInfo: PageInfo!
   totalCount: Float!
-  edges: [PostsConnectionEdges]
+  edges: [SectionsConnectionEdges]
 }
 
 type Mutation {
@@ -142,24 +151,24 @@ type Mutation {
   deleteDocument(collection: String, relativePath: String!): DocumentNode!
   createDocument(collection: String, relativePath: String!, params: DocumentMutation!): DocumentNode!
   createFolder(collection: String, relativePath: String!): DocumentNode!
-  updatePosts(relativePath: String!, params: PostsMutation!): Posts!
-  createPosts(relativePath: String!, params: PostsMutation!): Posts!
+  updateSections(relativePath: String!, params: SectionsMutation!): Sections!
+  createSections(relativePath: String!, params: SectionsMutation!): Sections!
 }
 
 input DocumentUpdateMutation {
-  posts: PostsMutation
+  sections: SectionsMutation
   relativePath: String
 }
 
 input DocumentMutation {
-  posts: PostsMutation
+  sections: SectionsMutation
 }
 
-input PostsMutation {
+input SectionsMutation {
   title: String
-  description: String
-  date: String
-  body: JSON
+  content: JSON
+  image: String
+  order: Float
 }
 
 schema {

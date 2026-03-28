@@ -82,8 +82,8 @@ export type Query = {
   collections: Array<Collection>;
   node: Node;
   document: DocumentNode;
-  posts: Posts;
-  postsConnection: PostsConnection;
+  sections: Sections;
+  sectionsConnection: SectionsConnection;
 };
 
 
@@ -108,22 +108,22 @@ export type QueryDocumentArgs = {
 };
 
 
-export type QueryPostsArgs = {
+export type QuerySectionsArgs = {
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QueryPostsConnectionArgs = {
+export type QuerySectionsConnectionArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Float']['input']>;
   last?: InputMaybe<Scalars['Float']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<PostsFilter>;
+  filter?: InputMaybe<SectionsFilter>;
 };
 
 export type DocumentFilter = {
-  posts?: InputMaybe<PostsFilter>;
+  sections?: InputMaybe<SectionsFilter>;
 };
 
 export type DocumentConnectionEdges = {
@@ -163,14 +163,14 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = Posts | Folder;
+export type DocumentNode = Sections | Folder;
 
-export type Posts = Node & Document & {
-  __typename?: 'Posts';
+export type Sections = Node & Document & {
+  __typename?: 'Sections';
   title?: Maybe<Scalars['String']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  date?: Maybe<Scalars['String']['output']>;
-  body?: Maybe<Scalars['JSON']['output']>;
+  content?: Maybe<Scalars['JSON']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  order?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
@@ -183,38 +183,47 @@ export type StringFilter = {
   in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
-export type DatetimeFilter = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  eq?: InputMaybe<Scalars['String']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
 export type RichTextFilter = {
   startsWith?: InputMaybe<Scalars['String']['input']>;
   eq?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type PostsFilter = {
+export type ImageFilter = {
+  startsWith?: InputMaybe<Scalars['String']['input']>;
+  eq?: InputMaybe<Scalars['String']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type NumberFilter = {
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  lte?: InputMaybe<Scalars['Float']['input']>;
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  eq?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
+};
+
+export type SectionsFilter = {
   title?: InputMaybe<StringFilter>;
-  description?: InputMaybe<StringFilter>;
-  date?: InputMaybe<DatetimeFilter>;
-  body?: InputMaybe<RichTextFilter>;
+  content?: InputMaybe<RichTextFilter>;
+  image?: InputMaybe<ImageFilter>;
+  order?: InputMaybe<NumberFilter>;
 };
 
-export type PostsConnectionEdges = {
-  __typename?: 'PostsConnectionEdges';
+export type SectionsConnectionEdges = {
+  __typename?: 'SectionsConnectionEdges';
   cursor: Scalars['String']['output'];
-  node?: Maybe<Posts>;
+  node?: Maybe<Sections>;
 };
 
-export type PostsConnection = Connection & {
-  __typename?: 'PostsConnection';
+export type SectionsConnection = Connection & {
+  __typename?: 'SectionsConnection';
   pageInfo: PageInfo;
   totalCount: Scalars['Float']['output'];
-  edges?: Maybe<Array<Maybe<PostsConnectionEdges>>>;
+  edges?: Maybe<Array<Maybe<SectionsConnectionEdges>>>;
 };
 
 export type Mutation = {
@@ -224,8 +233,8 @@ export type Mutation = {
   deleteDocument: DocumentNode;
   createDocument: DocumentNode;
   createFolder: DocumentNode;
-  updatePosts: Posts;
-  createPosts: Posts;
+  updateSections: Sections;
+  createSections: Sections;
 };
 
 
@@ -262,66 +271,66 @@ export type MutationCreateFolderArgs = {
 };
 
 
-export type MutationUpdatePostsArgs = {
+export type MutationUpdateSectionsArgs = {
   relativePath: Scalars['String']['input'];
-  params: PostsMutation;
+  params: SectionsMutation;
 };
 
 
-export type MutationCreatePostsArgs = {
+export type MutationCreateSectionsArgs = {
   relativePath: Scalars['String']['input'];
-  params: PostsMutation;
+  params: SectionsMutation;
 };
 
 export type DocumentUpdateMutation = {
-  posts?: InputMaybe<PostsMutation>;
+  sections?: InputMaybe<SectionsMutation>;
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DocumentMutation = {
-  posts?: InputMaybe<PostsMutation>;
+  sections?: InputMaybe<SectionsMutation>;
 };
 
-export type PostsMutation = {
+export type SectionsMutation = {
   title?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  date?: InputMaybe<Scalars['String']['input']>;
-  body?: InputMaybe<Scalars['JSON']['input']>;
+  content?: InputMaybe<Scalars['JSON']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  order?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type PostsPartsFragment = { __typename: 'Posts', title?: string | null, description?: string | null, date?: string | null, body?: any | null };
+export type SectionsPartsFragment = { __typename: 'Sections', title?: string | null, content?: any | null, image?: string | null, order?: number | null };
 
-export type PostsQueryVariables = Exact<{
+export type SectionsQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename: 'Posts', id: string, title?: string | null, description?: string | null, date?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type SectionsQuery = { __typename?: 'Query', sections: { __typename: 'Sections', id: string, title?: string | null, content?: any | null, image?: string | null, order?: number | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
-export type PostsConnectionQueryVariables = Exact<{
+export type SectionsConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Float']['input']>;
   last?: InputMaybe<Scalars['Float']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<PostsFilter>;
+  filter?: InputMaybe<SectionsFilter>;
 }>;
 
 
-export type PostsConnectionQuery = { __typename?: 'Query', postsConnection: { __typename?: 'PostsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostsConnectionEdges', cursor: string, node?: { __typename: 'Posts', id: string, title?: string | null, description?: string | null, date?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type SectionsConnectionQuery = { __typename?: 'Query', sectionsConnection: { __typename?: 'SectionsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'SectionsConnectionEdges', cursor: string, node?: { __typename: 'Sections', id: string, title?: string | null, content?: any | null, image?: string | null, order?: number | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
-export const PostsPartsFragmentDoc = gql`
-    fragment PostsParts on Posts {
+export const SectionsPartsFragmentDoc = gql`
+    fragment SectionsParts on Sections {
   __typename
   title
-  description
-  date
-  body
+  content
+  image
+  order
 }
     `;
-export const PostsDocument = gql`
-    query posts($relativePath: String!) {
-  posts(relativePath: $relativePath) {
+export const SectionsDocument = gql`
+    query sections($relativePath: String!) {
+  sections(relativePath: $relativePath) {
     ... on Document {
       _sys {
         filename
@@ -334,13 +343,13 @@ export const PostsDocument = gql`
       }
       id
     }
-    ...PostsParts
+    ...SectionsParts
   }
 }
-    ${PostsPartsFragmentDoc}`;
-export const PostsConnectionDocument = gql`
-    query postsConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PostsFilter) {
-  postsConnection(
+    ${SectionsPartsFragmentDoc}`;
+export const SectionsConnectionDocument = gql`
+    query sectionsConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: SectionsFilter) {
+  sectionsConnection(
     before: $before
     after: $after
     first: $first
@@ -370,20 +379,20 @@ export const PostsConnectionDocument = gql`
           }
           id
         }
-        ...PostsParts
+        ...SectionsParts
       }
     }
   }
 }
-    ${PostsPartsFragmentDoc}`;
+    ${SectionsPartsFragmentDoc}`;
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
-      posts(variables: PostsQueryVariables, options?: C): Promise<{data: PostsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostsQueryVariables, query: string}> {
-        return requester<{data: PostsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostsQueryVariables, query: string}, PostsQueryVariables>(PostsDocument, variables, options);
+      sections(variables: SectionsQueryVariables, options?: C): Promise<{data: SectionsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SectionsQueryVariables, query: string}> {
+        return requester<{data: SectionsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SectionsQueryVariables, query: string}, SectionsQueryVariables>(SectionsDocument, variables, options);
       },
-    postsConnection(variables?: PostsConnectionQueryVariables, options?: C): Promise<{data: PostsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostsConnectionQueryVariables, query: string}> {
-        return requester<{data: PostsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostsConnectionQueryVariables, query: string}, PostsConnectionQueryVariables>(PostsConnectionDocument, variables, options);
+    sectionsConnection(variables?: SectionsConnectionQueryVariables, options?: C): Promise<{data: SectionsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SectionsConnectionQueryVariables, query: string}> {
+        return requester<{data: SectionsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SectionsConnectionQueryVariables, query: string}, SectionsConnectionQueryVariables>(SectionsConnectionDocument, variables, options);
       }
     };
   }

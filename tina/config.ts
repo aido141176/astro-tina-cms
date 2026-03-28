@@ -1,11 +1,15 @@
-import { defineSchema, defineConfig } from '@tinacms/schema-tools'
-import { sections } from './collections/sections'
+import { defineConfig } from "tinacms"
+import { sections } from "./collections/sections"
 
 export default defineConfig({
-  schema: defineSchema({
+  branch: "main",
+
+  build: {
+    outputFolder: "admin",
+    publicFolder: "public",
+  },
+
+  schema: {
     collections: [sections],
-  }),
-  branch: 'main',
-  clientId: '',
-  token: '',
+  },
 })
