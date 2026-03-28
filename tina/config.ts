@@ -1,15 +1,41 @@
-import { defineConfig } from "tinacms"
-import { sections } from "./collections/sections"
+import { defineConfig } from "tinacms";
 
 export default defineConfig({
-  branch: "main",
-
+  branch: "master",
+  clientId: null, // Get this from app.tina.io
+  token: null,    // Get this from app.tina.io
   build: {
-    outputFolder: "admin",
+    outputFolder: "admin", // This creates public/admin
     publicFolder: "public",
   },
-
-  schema: {
-    collections: [sections],
+  media: {
+    tina: {
+      mediaRoot: "images",
+      publicFolder: "public",
+    },
   },
-})
+  schema: {
+    collections: [
+      {
+        name: "post",
+        label: "Posts",
+        path: "src/content/posts",
+        fields: [
+          {
+            type: "string",
+            name: "title",
+            label: "Title",
+            isTitle: true,
+            required: true,
+          },
+          {
+            type: "rich-text",
+            name: "body",
+            label: "Body",
+            isBody: true,
+          },
+        ],
+      },
+    ],
+  },
+});

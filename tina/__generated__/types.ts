@@ -82,8 +82,8 @@ export type Query = {
   collections: Array<Collection>;
   node: Node;
   document: DocumentNode;
-  sections: Sections;
-  sectionsConnection: SectionsConnection;
+  post: Post;
+  postConnection: PostConnection;
 };
 
 
@@ -108,22 +108,22 @@ export type QueryDocumentArgs = {
 };
 
 
-export type QuerySectionsArgs = {
+export type QueryPostArgs = {
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QuerySectionsConnectionArgs = {
+export type QueryPostConnectionArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Float']['input']>;
   last?: InputMaybe<Scalars['Float']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<SectionsFilter>;
+  filter?: InputMaybe<PostFilter>;
 };
 
 export type DocumentFilter = {
-  sections?: InputMaybe<SectionsFilter>;
+  post?: InputMaybe<PostFilter>;
 };
 
 export type DocumentConnectionEdges = {
@@ -163,14 +163,12 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = Sections | Folder;
+export type DocumentNode = Post | Folder;
 
-export type Sections = Node & Document & {
-  __typename?: 'Sections';
-  title?: Maybe<Scalars['String']['output']>;
-  content?: Maybe<Scalars['JSON']['output']>;
-  image?: Maybe<Scalars['String']['output']>;
-  order?: Maybe<Scalars['Float']['output']>;
+export type Post = Node & Document & {
+  __typename?: 'Post';
+  title: Scalars['String']['output'];
+  body?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
@@ -189,41 +187,22 @@ export type RichTextFilter = {
   exists?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type ImageFilter = {
-  startsWith?: InputMaybe<Scalars['String']['input']>;
-  eq?: InputMaybe<Scalars['String']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type NumberFilter = {
-  lt?: InputMaybe<Scalars['Float']['input']>;
-  lte?: InputMaybe<Scalars['Float']['input']>;
-  gte?: InputMaybe<Scalars['Float']['input']>;
-  gt?: InputMaybe<Scalars['Float']['input']>;
-  eq?: InputMaybe<Scalars['Float']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
-};
-
-export type SectionsFilter = {
+export type PostFilter = {
   title?: InputMaybe<StringFilter>;
-  content?: InputMaybe<RichTextFilter>;
-  image?: InputMaybe<ImageFilter>;
-  order?: InputMaybe<NumberFilter>;
+  body?: InputMaybe<RichTextFilter>;
 };
 
-export type SectionsConnectionEdges = {
-  __typename?: 'SectionsConnectionEdges';
+export type PostConnectionEdges = {
+  __typename?: 'PostConnectionEdges';
   cursor: Scalars['String']['output'];
-  node?: Maybe<Sections>;
+  node?: Maybe<Post>;
 };
 
-export type SectionsConnection = Connection & {
-  __typename?: 'SectionsConnection';
+export type PostConnection = Connection & {
+  __typename?: 'PostConnection';
   pageInfo: PageInfo;
   totalCount: Scalars['Float']['output'];
-  edges?: Maybe<Array<Maybe<SectionsConnectionEdges>>>;
+  edges?: Maybe<Array<Maybe<PostConnectionEdges>>>;
 };
 
 export type Mutation = {
@@ -233,8 +212,8 @@ export type Mutation = {
   deleteDocument: DocumentNode;
   createDocument: DocumentNode;
   createFolder: DocumentNode;
-  updateSections: Sections;
-  createSections: Sections;
+  updatePost: Post;
+  createPost: Post;
 };
 
 
@@ -271,66 +250,62 @@ export type MutationCreateFolderArgs = {
 };
 
 
-export type MutationUpdateSectionsArgs = {
+export type MutationUpdatePostArgs = {
   relativePath: Scalars['String']['input'];
-  params: SectionsMutation;
+  params: PostMutation;
 };
 
 
-export type MutationCreateSectionsArgs = {
+export type MutationCreatePostArgs = {
   relativePath: Scalars['String']['input'];
-  params: SectionsMutation;
+  params: PostMutation;
 };
 
 export type DocumentUpdateMutation = {
-  sections?: InputMaybe<SectionsMutation>;
+  post?: InputMaybe<PostMutation>;
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DocumentMutation = {
-  sections?: InputMaybe<SectionsMutation>;
+  post?: InputMaybe<PostMutation>;
 };
 
-export type SectionsMutation = {
+export type PostMutation = {
   title?: InputMaybe<Scalars['String']['input']>;
-  content?: InputMaybe<Scalars['JSON']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
-  order?: InputMaybe<Scalars['Float']['input']>;
+  body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export type SectionsPartsFragment = { __typename: 'Sections', title?: string | null, content?: any | null, image?: string | null, order?: number | null };
+export type PostPartsFragment = { __typename: 'Post', title: string, body?: any | null };
 
-export type SectionsQueryVariables = Exact<{
+export type PostQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type SectionsQuery = { __typename?: 'Query', sections: { __typename: 'Sections', id: string, title?: string | null, content?: any | null, image?: string | null, order?: number | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, title: string, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
-export type SectionsConnectionQueryVariables = Exact<{
+export type PostConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Float']['input']>;
   last?: InputMaybe<Scalars['Float']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<SectionsFilter>;
+  filter?: InputMaybe<PostFilter>;
 }>;
 
 
-export type SectionsConnectionQuery = { __typename?: 'Query', sectionsConnection: { __typename?: 'SectionsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'SectionsConnectionEdges', cursor: string, node?: { __typename: 'Sections', id: string, title?: string | null, content?: any | null, image?: string | null, order?: number | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, title: string, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
-export const SectionsPartsFragmentDoc = gql`
-    fragment SectionsParts on Sections {
+export const PostPartsFragmentDoc = gql`
+    fragment PostParts on Post {
   __typename
   title
-  content
-  image
-  order
+  body
 }
     `;
-export const SectionsDocument = gql`
-    query sections($relativePath: String!) {
-  sections(relativePath: $relativePath) {
+export const PostDocument = gql`
+    query post($relativePath: String!) {
+  post(relativePath: $relativePath) {
     ... on Document {
       _sys {
         filename
@@ -343,13 +318,13 @@ export const SectionsDocument = gql`
       }
       id
     }
-    ...SectionsParts
+    ...PostParts
   }
 }
-    ${SectionsPartsFragmentDoc}`;
-export const SectionsConnectionDocument = gql`
-    query sectionsConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: SectionsFilter) {
-  sectionsConnection(
+    ${PostPartsFragmentDoc}`;
+export const PostConnectionDocument = gql`
+    query postConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PostFilter) {
+  postConnection(
     before: $before
     after: $after
     first: $first
@@ -379,20 +354,20 @@ export const SectionsConnectionDocument = gql`
           }
           id
         }
-        ...SectionsParts
+        ...PostParts
       }
     }
   }
 }
-    ${SectionsPartsFragmentDoc}`;
+    ${PostPartsFragmentDoc}`;
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
-      sections(variables: SectionsQueryVariables, options?: C): Promise<{data: SectionsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SectionsQueryVariables, query: string}> {
-        return requester<{data: SectionsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SectionsQueryVariables, query: string}, SectionsQueryVariables>(SectionsDocument, variables, options);
+      post(variables: PostQueryVariables, options?: C): Promise<{data: PostQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostQueryVariables, query: string}> {
+        return requester<{data: PostQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostQueryVariables, query: string}, PostQueryVariables>(PostDocument, variables, options);
       },
-    sectionsConnection(variables?: SectionsConnectionQueryVariables, options?: C): Promise<{data: SectionsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SectionsConnectionQueryVariables, query: string}> {
-        return requester<{data: SectionsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SectionsConnectionQueryVariables, query: string}, SectionsConnectionQueryVariables>(SectionsConnectionDocument, variables, options);
+    postConnection(variables?: PostConnectionQueryVariables, options?: C): Promise<{data: PostConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostConnectionQueryVariables, query: string}> {
+        return requester<{data: PostConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PostConnectionQueryVariables, query: string}, PostConnectionQueryVariables>(PostConnectionDocument, variables, options);
       }
     };
   }

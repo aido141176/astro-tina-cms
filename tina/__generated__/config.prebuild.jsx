@@ -1,45 +1,45 @@
 // tina/config.ts
 import { defineConfig } from "tinacms";
-
-// tina/collections/sections.ts
-var sections = {
-  label: "Sections",
-  name: "sections",
-  path: "content/sections",
-  format: "md",
-  fields: [
-    {
-      type: "string",
-      label: "Title",
-      name: "title"
-    },
-    {
-      type: "rich-text",
-      label: "Content",
-      name: "content"
-    },
-    {
-      type: "image",
-      label: "Image",
-      name: "image"
-    },
-    {
-      type: "number",
-      label: "Order",
-      name: "order"
-    }
-  ]
-};
-
-// tina/config.ts
 var config_default = defineConfig({
-  branch: "main",
+  branch: "master",
+  clientId: null,
+  // Get this from app.tina.io
+  token: null,
+  // Get this from app.tina.io
   build: {
     outputFolder: "admin",
+    // This creates public/admin
     publicFolder: "public"
   },
+  media: {
+    tina: {
+      mediaRoot: "images",
+      publicFolder: "public"
+    }
+  },
   schema: {
-    collections: [sections]
+    collections: [
+      {
+        name: "post",
+        label: "Posts",
+        path: "src/content/posts",
+        fields: [
+          {
+            type: "string",
+            name: "title",
+            label: "Title",
+            isTitle: true,
+            required: true
+          },
+          {
+            type: "rich-text",
+            name: "body",
+            label: "Body",
+            isBody: true
+          }
+        ]
+      }
+    ]
   }
 });
 export {

@@ -1,7 +1,5 @@
-fragment SectionsParts on Sections {
+fragment PostParts on Post {
   __typename
   title
-  content
-  image
-  order
+  body
 }

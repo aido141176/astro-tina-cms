@@ -54,12 +54,12 @@ type Query {
   collections: [Collection!]!
   node(id: String): Node!
   document(collection: String, relativePath: String): DocumentNode!
-  sections(relativePath: String): Sections!
-  sectionsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: SectionsFilter): SectionsConnection!
+  post(relativePath: String): Post!
+  postConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PostFilter): PostConnection!
 }
 
 input DocumentFilter {
-  sections: SectionsFilter
+  post: PostFilter
 }
 
 type DocumentConnectionEdges {
@@ -85,13 +85,11 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Sections | Folder
+union DocumentNode = Post | Folder
 
-type Sections implements Node & Document {
-  title: String
-  content: JSON
-  image: String
-  order: Float
+type Post implements Node & Document {
+  title: String!
+  body: JSON
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -110,39 +108,20 @@ input RichTextFilter {
   exists: Boolean
 }
 
-input ImageFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
-  in: [String]
-}
-
-input NumberFilter {
-  lt: Float
-  lte: Float
-  gte: Float
-  gt: Float
-  eq: Float
-  exists: Boolean
-  in: [Float]
-}
-
-input SectionsFilter {
+input PostFilter {
   title: StringFilter
-  content: RichTextFilter
-  image: ImageFilter
-  order: NumberFilter
+  body: RichTextFilter
 }
 
-type SectionsConnectionEdges {
+type PostConnectionEdges {
   cursor: String!
-  node: Sections
+  node: Post
 }
 
-type SectionsConnection implements Connection {
+type PostConnection implements Connection {
   pageInfo: PageInfo!
   totalCount: Float!
-  edges: [SectionsConnectionEdges]
+  edges: [PostConnectionEdges]
 }
 
 type Mutation {
@@ -151,24 +130,22 @@ type Mutation {
   deleteDocument(collection: String, relativePath: String!): DocumentNode!
   createDocument(collection: String, relativePath: String!, params: DocumentMutation!): DocumentNode!
   createFolder(collection: String, relativePath: String!): DocumentNode!
-  updateSections(relativePath: String!, params: SectionsMutation!): Sections!
-  createSections(relativePath: String!, params: SectionsMutation!): Sections!
+  updatePost(relativePath: String!, params: PostMutation!): Post!
+  createPost(relativePath: String!, params: PostMutation!): Post!
 }
 
 input DocumentUpdateMutation {
-  sections: SectionsMutation
+  post: PostMutation
   relativePath: String
 }
 
 input DocumentMutation {
-  sections: SectionsMutation
+  post: PostMutation
 }
 
-input SectionsMutation {
+input PostMutation {
   title: String
-  content: JSON
-  image: String
-  order: Float
+  body: JSON
 }
 
 schema {
