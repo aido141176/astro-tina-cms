@@ -1,4 +1,8 @@
 ---
+import FormField from "./FormField.astro";
+import FormSelect from "./FormSelect.astro";
+import FormTextarea from "./FormTextarea.astro";
+
 type Field = {
   name: string;
   label: string;
@@ -13,60 +17,22 @@ const { config, formType = "contact" } = Astro.props as {
 };
 ---
 
-<form id="form" class="space-y-4 max-w-xl">
+<form id="form" class="max-w-xl space-y-4">
 
   {config.fields.map((field: Field) => {
     if (field.type === "textarea") {
-      return (
-        <textarea
-          name={field.name}
-          placeholder={field.label}
-          required={field.required}
-          class="w-full p-3 border rounded"
-        ></textarea>
-      );
+      return <FormTextarea field={field} />;
     }
 
     if (field.type === "select") {
-      return (
-        <select
-          name={field.name}
-          required={field.required}
-          class="w-full p-3 border rounded"
-        >
-          <option value="">Select {field.label}</option>
-          {field.options?.map((opt: string) => (
-            <option value={opt}>{opt}</option>
-          ))}
-        </select>
-      );
+      return <FormSelect field={field} />;
     }
 
-    // Input types
-    if (
-      field.type === "text" ||
-      field.type === "email" ||
-      field.type === "number" ||
-      field.type === "date"
-    ) {
-      return (
-        <input
-          type={field.type}
-          name={field.name}
-          placeholder={field.label}
-          required={field.required}
-          class="w-full p-3 border rounded"
-        />
-      );
-    }
-
-    return null;
+    return <FormField field={field} />;
   })}
 
-  <!-- Hidden -->
   <input type="hidden" name="formType" value={formType} />
 
-  <!-- Submit -->
   <button
     type="submit"
     id="submitBtn"
@@ -75,7 +41,6 @@ const { config, formType = "contact" } = Astro.props as {
     Send
   </button>
 
-  <!-- Status -->
   <p id="status" class="text-sm"></p>
 </form>
 
