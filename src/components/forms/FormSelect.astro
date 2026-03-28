@@ -2,21 +2,13 @@
 const { field } = Astro.props;
 ---
 
-<div class="flex flex-col gap-1">
-  <label for={field.name} class="text-sm font-medium text-gray-700">
-    {field.label}
-     {field.required && <span class="text-red-500">*</span>}
-  </label>
-
-  <select
-    id={field.name} 
-    name={field.name}
-    required={field.required}
-     class="w-full px-4 py-3 transition duration-200 border border-gray-200 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
-  >
-    <option value="">Select {field.label}</option>
-    {field.options?.map((opt: string) => (
-      <option value={opt}>{opt}</option>
-    ))}
-  </select>
-</div>
+<select
+  name={field.name}
+  required={field.required}
+  class="w-full p-3 border rounded"
+>
+  <option value="">Select {field.label}</option>
+  {field.options?.map((opt: string) => (
+    <option value={opt}>{opt}</option>
+  ))}
+</select>
