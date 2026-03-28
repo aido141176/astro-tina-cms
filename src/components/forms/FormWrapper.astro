@@ -13,6 +13,7 @@ const { config, formType = "contact" } = Astro.props as {
 };
 ---
 
+<<<<<<< HEAD
 <form id="form" class="space-y-4 max-w-xl">
 
   {config.fields.map((field: Field) => {
@@ -41,6 +42,21 @@ const { config, formType = "contact" } = Astro.props as {
         </select>
       );
     }
+=======
+<form id="form" class="max-w-xl space-y-4">
+
+  {config.fields.map((field: Field) => {
+    if (field.type === "textarea") {
+      return <FormTextarea field={field} />;
+    }
+
+    if (field.type === "select") {
+      return <FormSelect field={field} />;
+    }
+
+    return <FormField field={field} />;
+  })}
+>>>>>>> parent of b2e23ea (form updates)
 
     // Input types
     if (
@@ -75,7 +91,10 @@ const { config, formType = "contact" } = Astro.props as {
     Send
   </button>
 
+<<<<<<< HEAD
   <!-- Status -->
+=======
+>>>>>>> parent of b2e23ea (form updates)
   <p id="status" class="text-sm"></p>
 </form>
 
