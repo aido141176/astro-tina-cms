@@ -2,10 +2,10 @@ import { defineConfig } from "tinacms";
 
 export default defineConfig({
   branch: "master",
-  clientId: null, // Get this from app.tina.io
-  token: null,    // Get this from app.tina.io
+  clientId: null,
+  token: null,
   build: {
-    outputFolder: "admin", // This creates public/admin
+    outputFolder: "admin",
     publicFolder: "public",
   },
   media: {
@@ -20,6 +20,7 @@ export default defineConfig({
         name: "post",
         label: "Posts",
         path: "src/content/posts",
+        format: "md",
         fields: [
           {
             type: "string",
@@ -27,6 +28,12 @@ export default defineConfig({
             label: "Title",
             isTitle: true,
             required: true,
+          },
+          {
+            type: "datetime",
+            name: "date",
+            label: "Date",
+            required: false,
           },
           {
             type: "rich-text",

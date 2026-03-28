@@ -3,12 +3,9 @@ import { defineConfig } from "tinacms";
 var config_default = defineConfig({
   branch: "master",
   clientId: null,
-  // Get this from app.tina.io
   token: null,
-  // Get this from app.tina.io
   build: {
     outputFolder: "admin",
-    // This creates public/admin
     publicFolder: "public"
   },
   media: {
@@ -23,6 +20,7 @@ var config_default = defineConfig({
         name: "post",
         label: "Posts",
         path: "src/content/posts",
+        format: "md",
         fields: [
           {
             type: "string",
@@ -30,6 +28,12 @@ var config_default = defineConfig({
             label: "Title",
             isTitle: true,
             required: true
+          },
+          {
+            type: "datetime",
+            name: "date",
+            label: "Date",
+            required: false
           },
           {
             type: "rich-text",
